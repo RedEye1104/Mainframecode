@@ -1,0 +1,40 @@
+import os
+import time
+from utilities.customLogger import LogGen
+from pageObjects.Homepage import Homepage
+
+
+class TestRunning:
+    baseURL = "https://www.easemytrip.com/hotels/"
+    logger = LogGen.loggen()
+
+    def test_allpage(self, setup):
+        self.driver = setup
+        self.driver.get(self.baseURL)
+        self.logger.info("Opened the base URL")
+
+        self.driver.maximize_window()
+        self.logger.info("Maximized the browser window")
+
+        self.driver.implicitly_wait(10)
+        self.logger.info("Set implicit wait for 10 seconds")
+
+        self.hp = Homepage(self.driver)
+        self.logger.info("Initialized the Homepage object")
+
+        # Save the first screenshot
+        self.driver.save_screenshot(os.path.abspath(os.curdir) + "\\screenshorts\\" + "test_check_1.png")
+
+        # Perform actions on the homepage
+        self.hp.clickads()
+        self.hp.clickSearchcity()
+        self.hp.entercity("New Delhi")
+        self.hp.clickselectcity()
+        self.hp.clickcheckin()
+        self.hp.clickcheckout()
+        self.hp.clickroom()
+        self.hp.clicksearch()
+        time.sleep(3)
+
+        # Save the second screenshot
+        self.driver.save_screenshot(os.path.abspath(os.curdir) + "\\screenshorts\\" + "test_account_reg.png")
